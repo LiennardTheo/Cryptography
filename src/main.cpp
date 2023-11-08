@@ -6,6 +6,7 @@
 */
 
 #include "my.hpp"
+#include "Aes.hpp"
 
 void xorMethod(std::string message, std::string key, int mode, bool block)
 {
@@ -19,6 +20,12 @@ void xorMethod(std::string message, std::string key, int mode, bool block)
 
 void aesMethod(std::string message, std::string key, int mode, bool block)
 {
+    Aes aes(key);
+    if (mode == 1) {
+        std::cout << aes.encrypt(message) << std::endl;
+    } else {
+        std::cout << aes.decrypt(message) << std::endl;
+    }
 }
 
 void rsaMethod(std::string message, std::string key, int mode, bool block)
