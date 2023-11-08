@@ -2,3 +2,4 @@ mypgp
 build/
 message
 ciphered
+.vscode/
