@@ -55,8 +55,6 @@ int main(int argc, char **argv) {
         block = true;
 
     std::string key = argv[argc - 1];
-    std::cout << key << std::endl;
-    std::cout << message << std::endl;
 
     if (std::string(argv[1]) == "-xor") {
         xorMethod(message, key, mode, block);

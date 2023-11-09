@@ -11,6 +11,7 @@
 #include <string>
 #include <vector>
 #include <cstdlib>
+#include <memory>
 
 #include "Matrix.hpp"
 #include <sstream>
