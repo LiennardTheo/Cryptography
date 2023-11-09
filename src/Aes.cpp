@@ -5,7 +5,7 @@ Aes::Aes(std::string key)
     _key = key;
 }
 
-std::string Aes::encrypt(std::string plainText)
+std::string Aes::encrypt(std::string plainText, bool block)
 {
     fillPlainText(plainText);
     fillKeySchedule();
@@ -13,13 +13,17 @@ std::string Aes::encrypt(std::string plainText)
         encryptMatrix(matrix);
     }
     std::stringstream ss;
-    for (auto& matrix : _plainText) {
-        ss << matrixToString(matrix);
+    if (block) {
+        ss << matrixToString(_plainText[0]);
+    } else {
+        for (auto& matrix : _plainText) {
+            ss << matrixToString(matrix);
+        }
     }
     return ss.str();
 }
 
-std::string Aes::decrypt(std::string cipherText)
+std::string Aes::decrypt(std::string cipherText, bool block)
 {
     fillCipherText(cipherText);
     fillKeySchedule();
@@ -27,8 +31,12 @@ std::string Aes::decrypt(std::string cipherText)
         decryptMatrix(matrix);
     }
     std::stringstream ss;
-    for (auto& matrix : _cipherText) {
-        ss << matrixToString(matrix);
+    if (block) {
+        ss << matrixToString(_plainText[0]);
+    } else {
+        for (auto& matrix : _cipherText) {
+            ss << matrixToString(matrix);
+        }
     }
     return ss.str();
 }
@@ -100,8 +108,8 @@ void Aes::fillPlainText(std::string plainText)
                 c = std::stoll(plainText.substr(i + (j * 2), 2), nullptr, 16);
             matrix(j % 4, j / 4) = c;
         }
-        matrix.printB();
-        std::cout << std::endl;
+        // matrix.printB();
+        // std::cout << std::endl;
         _plainText.push_back(matrix);
     }
 }

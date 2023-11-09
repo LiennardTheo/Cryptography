@@ -11,8 +11,8 @@ class Aes {
     public:
         Aes(std::string key);
         ~Aes() = default;
-        std::string encrypt(std::string plainText);
-        std::string decrypt(std::string cipherText);
+        std::string encrypt(std::string plainText, bool block);
+        std::string decrypt(std::string cipherText, bool block);
         void decryptMatrix(mat::Matrix<uint8_t, 4, 4>& matrix);
         void encryptMatrix(mat::Matrix<uint8_t, 4, 4>& matrix);
         void fillPlainText(std::string plainText);
