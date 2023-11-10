@@ -138,5 +138,8 @@ void Aes::fillKeySchedule()
         }
         keySchedule[i] = keySchedule[i - 4] ^ temp;
     }
+    // for (size_t i = 0; i < 44; ++i) {
+    //     printf("%08x\n", keySchedule[i]);
+    // }
     _keySchedule = keySchedule;
 }

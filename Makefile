@@ -15,7 +15,7 @@ NAME = mypgp
 
 # Compiler and flags
 CXX = g++
-CXXFLAGS = -std=c++17 -I./$(INCLUDE_DIR)
+CXXFLAGS = -std=c++17 -I./$(INCLUDE_DIR) -lgmpxx -lgmp
 CXXFLAGS_WARNINGS = -Wall -Wextra -Werror
 CXXFLAGS_DEBUG = -g -O0 -g3
 

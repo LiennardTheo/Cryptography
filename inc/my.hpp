@@ -15,3 +15,4 @@
 
 #include "Matrix.hpp"
 #include <sstream>
+#include <gmpxx.h>
