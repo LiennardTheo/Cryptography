@@ -8,37 +8,6 @@
 #include "my.hpp"
 #include "Aes.hpp"
 
-std::string xorMethod(std::string message, std::string key, bool block)
-{
-    std::vector<uint8_t> bytes1, bytes2;
-    for (int i = 0; i < message.size(); i += 2) {
-        std::string byte_str = message.substr(i, 2);
-        uint8_t byte = (uint8_t) strtol(byte_str.c_str(), NULL, 16);
-        bytes1.push_back(byte);
-    }
-    for (int i = 0; i < key.size(); i += 2) {
-        std::string byte_str = key.substr(i, 2);
-        uint8_t byte = (uint8_t) strtol(byte_str.c_str(), NULL, 16);
-        bytes2.push_back(byte);
-    }
-
-    std::vector<uint8_t> result_bytes;
-    for (int i = 0; i < bytes1.size(); i++) {
-        uint8_t result_byte = bytes1[i] ^ bytes2[i % bytes2.size()];
-        result_bytes.push_back(result_byte);
-    }
-
-    std::string hex_result = "";
-    for (int i = 0; i < result_bytes.size(); i++) {
-        char hex_byte[3];
-        std::sprintf(hex_byte, "%02x", result_bytes[i]);
-        hex_result += hex_byte;
-    }
-
-    std::cout << hex_result << std::endl;
-    return hex_result;
-}
-
 void aesMethod(std::string message, std::string key, int mode, bool block)
 {
     std::cout << block << std::endl;
@@ -57,6 +26,52 @@ void rsaMethod(std::string message, std::string key, int mode, bool block)
 {
 }
 
+// std::vector<uint8_t> gcd(std::vector<uint8_t> a, std::vector<uint8_t> b)
+// {
+//     if (a.size() == 0)
+//         return b;
+//     return gcd(b % a, a);
+// }
+
+// std::vector<uint8_t> gcdExtended(std::vector<uint8_t> a, std::vector<uint8_t> b, std::vector<uint8_t> *x, std::vector<uint8_t> *y)
+// {
+//     //cas de base -> si a = 0 -> b = GCD / x = 0 et y = 1 pour stopper toutes les recursions §§ attention inversé
+//     if (a.size() == 0) {
+//         *x = {0};
+//         *y = {1};
+//         return b;
+//     }
+
+//     std::vector<uint8_t> x1, y1;
+//     std::vector<uint8_t> gcd = gcdExtended(b % a, a, &x1, &y1);
+
+//     *x = y1 - (b / a) * x1;
+//     *y = x1;
+
+//     return gcd;
+// }
+
+void rsaGenerateKey(std::string p, std::string q)
+{
+//     std::vector<uint8_t> pBytes = toVec(p);
+//     std::vector<uint8_t> qBytes = toVec(q);
+//     std::vector<uint8_t> e = {0x01, 0x00, 0x01};
+
+//     std::vector<uint8_t> n = pBytes * qBytes;
+//     // outputHex(n);
+//     std::cout << "public key: ";
+//     outputHex(e);
+//     std::cout << "-";
+//     outputHex(n);
+//     std::cout << std::endl;
+
+//     // std::vector<uint8_t> totient = (pBytes - 1) * (qBytes - 1);
+//     // outputHex(totient);
+
+//     std::vector<uint8_t> x, y;
+//     // std::vector<uint8_t> d = gcdExtended(e, totient, &x, &y);
+}
+
 int main(int argc, char **argv) {
     if (argc < 4) {
         exit(1);
@@ -72,10 +87,6 @@ int main(int argc, char **argv) {
         mode = 2;
     }
 
-    if (mode == 0) {
-        exit(1);
-    }
-
     if (std::string(argv[3]) == "-b")
         block = true;
 
@@ -86,10 +97,17 @@ int main(int argc, char **argv) {
     } else if (std::string(argv[1]) == "-aes") {
         aesMethod(message, key, mode, block);
     } else if (std::string(argv[1]) == "-rsa") {
-        rsaMethod(message, key, mode, block);
+        if (std::string(argv[2]) == "-g") {
+            rsaGenerateKey(argv[3], argv[4]);
+        } else {
+            rsaMethod(message, key, mode, block);
+        }
     } else {
         exit(1);
     }
 
     return 0;
 }
+
+// 4b1da73924978f2e9c1f04170e46820d648edbee12ccf4d4462af89b080c86e1
+// bb3ca1e126f7c8751bd81bc8daa226494efb3d128f72ed9f6cacbe96e14166cb

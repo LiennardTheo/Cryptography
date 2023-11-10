@@ -14,5 +14,6 @@
 #include <memory>
 
 #include "Matrix.hpp"
+#include "xor.hpp"
 #include <sstream>
 #include <gmpxx.h>
