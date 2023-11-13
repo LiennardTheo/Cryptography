@@ -8,6 +8,7 @@
 #include "my.hpp"
 #include "Aes.hpp"
 #include "Rsa.hpp"
+#include "Pgp.hpp"
 
 void aesMethod(std::string message, std::string key, int mode, bool block)
 {
@@ -32,6 +33,19 @@ void rsaMethod(std::string message, std::string key, int mode)
     } else if (mode == 2) {
         Rsa rsa(key);
         std::string plainText = rsa.rsaDecrypt(message);
+        std::cout << plainText << std::endl;
+    }
+}
+
+void pgpMethod(std::string message, std::string key, int mode)
+{
+    if (mode == 1) {
+        Pgp pgp;
+        std::string cipherText = pgp.pgpEncrypt(message, key);
+        std::cout << cipherText << std::endl;
+    } else if (mode == 2) {
+        Pgp pgp;
+        std::string plainText = pgp.pgpDecrypt(message, key);
         std::cout << plainText << std::endl;
     }
 }
@@ -72,6 +86,10 @@ int main(int argc, char **argv) {
         std::string message;
         std::getline(std::cin, message);
         rsaMethod(message, key, mode);
+    } else if (std::string(argv[1]) == "-pgp") {
+        std::string message;
+        std::getline(std::cin, message);
+        pgpMethod(message, key, mode);
     } else {
         exit(1);
     }
